@@ -1,44 +1,24 @@
-$(document).on('ready' , function(){
+$(document).on('ready', function(){
 
-var contentStage = new Kinetic.Stage({
-		container:'content',
+	
+	var contentStage = new Kinetic.Stage({
+		container:'whiteWash1',
 		width:700,
 		height:300
 	});
 
 
-	var waveLayer = new Kinetic.Layer();
+ 	 var whiteWash = new Kinetic.Layer();
+ 	 var whiteWash2 = new Kinetic.Layer();
 
-	var whiteWash = new Kinetic.Layer();
-	
-	var checkID = whiteWash.isVisible();
-	console.log(checkID);
-	console.log(checkID == true);
 
- 	var whiteWash2 = new Kinetic.Layer();
- 	whiteWash2.id('whiteWash2');
 
-	
 
-	var waveFrame = new Kinetic.Shape({
-		sceneFunc: function(context){
-			context.beginPath();
-			context.moveTo(2100,50);      //////right controls top right wave height//////
-			context.lineTo(90,415);
-			context.quadraticCurveTo(25,290,420,50); ////second from right moves top left, right controls top left/////
-			context.closePath();
-			context.fillStrokeShape(this);
-		},
-		fill: '#00D2FF',
-		stroke: 'blue',
-		strokeWidth: 6
-	});
 
-		waveLayer.add(waveFrame);
 
-/////////BACKGROUND IS REQUIRED FOR HIDING OBJECTS////////////////
 
-		var background = new Kinetic.Shape({
+
+	var background = new Kinetic.Shape({
 		sceneFunc: function(context){
 			context.beginPath();
 			context.moveTo(90,50);      //////right controls top right wave height//////
@@ -50,13 +30,17 @@ var contentStage = new Kinetic.Stage({
 		fill: 'white',
 	});
 
-
 	whiteWash.add(background);
-	whiteWash2.add(background); 
+	whiteWash2.add(background);  
 
-/////////PRIMARY WHITE WASH POSITION//////////////////
 
-		var waveSpline1 = new Kinetic.Line({
+
+
+
+
+
+
+	var waveSpline1 = new Kinetic.Line({
 		points: [110,300,179,134,420,0],
 		stroke: 'blue',
 		strokeWidth: 5,
@@ -122,7 +106,10 @@ var contentStage = new Kinetic.Stage({
 	whiteWash.add(waveSpline6);
 
 
-	////////////SECONDARY WHITEWASH POSITION/////////////////
+
+
+
+
 
 
   	var waveSpline1 = new Kinetic.Line({
@@ -188,127 +175,23 @@ var contentStage = new Kinetic.Stage({
         whiteWash2.add(waveSpline5);
         whiteWash2.add(waveSpline6);
 
-        var wipeOut = new Kinetic.Text({
-        	x:450,
-        	y:75,
-        	text: 'WIPE OUT!',
-        	fontSize: 30,
-        	fontFamily: 'helvetica',
-        	fill: 'white'
-        })
-
-        // waveLayer.add(wipeOut);
-        // wipeOut.isVisible()==false;
-        // var check = wipeOut.isVisible();
-        // console.log(check);
-
-   //////////////////////////////////////
-
-    var rectangle = new Kinetic.Rect({
-   	x:350,
-   	y:200,
-   	width: 20,
-   	height: 20,
-   	fill: 'green',
-   	stroke: 'black',
-   	strokeWidth:1
-   });
-
-   waveLayer.add(rectangle);
-
-   var rectangleY = 200;
-   var direction = 0;
-
-   var animation = new Kinetic.Animation(function(){
-   	rectangle.setY(rectangleY);
-   	rectangleY+=direction*1;
-   },waveLayer);
-
-   animation.start();
-
-   contentStage.on('mousedown' , function(){direction=-3});
-   contentStage.on('mouseleave mouseup' , function(){direction=3});
-
-///////////////////////////////////////////
- 	
- 	var shark = new Kinetic.Rect({
- 		width: 10,
- 		height: 10,
- 		y:220,
- 		fill:'black'
- 	});
-
- 	waveLayer.add(shark);
-
- 	var sharkX = 700;
- 	attackDirection = 0;
-
- 	var sharkAttack = new Kinetic.Animation(function(){
- 		shark.setX(sharkX);
- 		sharkX-=2;
- 	},waveLayer);
-
- 	setInterval(function(){
- 		sharkAttack.start()
- 	},1000);
 
 
-//////////////////////////////////////////
-    contentStage.add(waveLayer);
-    contentStage.add(whiteWash);
-    contentStage.add(whiteWash2);
-  
+        contentStage.add(whiteWash);
+        // whiteWash.moveToTop();
 
-    whiteWash2.hide();
-   
-
-    setInterval(function(){
-
-    	if(whiteWash.isVisible() == true){
-    		whiteWash.hide();
-    	}else{
-    		whiteWash.show()
-    	};
-
-    },500);
-
-
-    setInterval(function(){
-
-    	if(whiteWash2.isVisible() == false){
-    		whiteWash2.show();
-    	}else{
-    		whiteWash2.hide()
-    	};
-    },500);
-
-
-   /////////////////////////////
+        contentStage.add(whiteWash2);
+        // whiteWash2.moveToTop();
 
 
 
 
+  //       var toggler = function(){
+  //       	$('#container').toggle(400);
+		// };
+
+		// setInterval(toggler, 1000);
 
 
 
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-})
+});
