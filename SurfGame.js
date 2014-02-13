@@ -10,14 +10,22 @@ var contentStage = new Kinetic.Stage({
 
 
         var waveLayer = new Kinetic.Layer();
-
         var whiteWash = new Kinetic.Layer();
-
-        var checkID = whiteWash.isVisible();
-    
-
         var whiteWash2 = new Kinetic.Layer();
-        whiteWash2.id('whiteWash2');
+        var skyLayer = new Kinetic.Layer();
+
+
+        var sky = new Kinetic.Rect({
+            x:0,
+            y:0,
+            width:700,
+            height:175,
+            fillLinearGradientStartPoint: {x:0, y:50},
+            fillLinearGradientEndPoint: {x:0,y:0},
+            fillLinearGradientColorStops: [0, 'white', 1, 'yellow'],
+        })
+
+        skyLayer.add(sky);
 
 
 
@@ -53,7 +61,7 @@ var contentStage = new Kinetic.Stage({
 
                 var backRect = new Kinetic.Rect({
                     x:0,
-                    y:0,
+                    y:50,
                     width:75,
                     height:300,
                     fill:'white',
@@ -326,6 +334,7 @@ var contentStage = new Kinetic.Stage({
 
 //////////////////////////////////////////
 
+    contentStage.add(skyLayer);
     contentStage.add(waveLayer);
     contentStage.add(whiteWash);
     contentStage.add(whiteWash2);
@@ -382,5 +391,3 @@ $('#restart').on('click' , function(){
 
 
 });
-
-
