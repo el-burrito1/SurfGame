@@ -1,5 +1,7 @@
 $(document).on('ready' , function(){
 
+var restart = function(){    
+
 var contentStage = new Kinetic.Stage({
                 container:'content',
                 width:700,
@@ -12,8 +14,7 @@ var contentStage = new Kinetic.Stage({
         var whiteWash = new Kinetic.Layer();
 
         var checkID = whiteWash.isVisible();
-        console.log(checkID);
-        console.log(checkID == true);
+    
 
         var whiteWash2 = new Kinetic.Layer();
         whiteWash2.id('whiteWash2');
@@ -41,16 +42,27 @@ var contentStage = new Kinetic.Stage({
                 var background = new Kinetic.Shape({
                 sceneFunc: function(context){
                         context.beginPath();
-                        context.moveTo(90,50);      //////right controls top right wave height//////
+                        context.moveTo(0,50);      //////right controls top right wave height//////
                         context.lineTo(90,415);
-                        context.quadraticCurveTo(25,290,420,50); ////second from right moves top left, right controls top left/////
+                        context.quadraticCurveTo(20,290,415,50); ////second from right moves top left, right controls top left/////
                         context.closePath();
                         context.fillStrokeShape(this);
                 },
                 fill: 'white',
         });
 
+                var backRect = new Kinetic.Rect({
+                    x:0,
+                    y:0,
+                    width:75,
+                    height:300,
+                    fill:'white',
+                    stroke:'white'
+                });
 
+
+        whiteWash.add(backRect);
+        whiteWash2.add(backRect);
         whiteWash.add(background);
         whiteWash2.add(background);
 
@@ -188,16 +200,50 @@ var contentStage = new Kinetic.Stage({
         whiteWash2.add(waveSpline5);
         whiteWash2.add(waveSpline6);
 
-        var wipeOut = new Kinetic.Text({
-                x:450,
-                y:75,
-                text: 'WIPE OUT!',
-                fontSize: 30,
-                fontFamily: 'helvetica',
-                fill: 'white'
-        })
+
+
+   
+    ///////////////////////////////////////////
+
+
+    var startRectangle = new Kinetic.Rect({
+        x: 0,
+        y: 0,
+        width:700,
+        height:300,
+        fill:'#00D2FF',
+        stroke:'white',
+        strokeWidth:4,
+        opacity:0
+    })
+
+        var startScreen = new Kinetic.Text({
+        x: 325,
+        y: 150,
+        text: 'CLICK TO START!',
+        fontSize: 18,
+        fontFamily: 'helvetica',
+        fill:'white'
+    });
+
+    waveLayer.add(startRectangle);
+    waveLayer.add(startScreen);
+
+    startRectangle.on('mousedown' , function(){
+        startRectangle.remove();
+        startScreen.remove();
+
+        setInterval(function(){
+        newShark();
+        },1000);
+
+        animation.start();
+
+
+    });
 
    //////////////////////////////////////
+
 
     var rectangle = new Kinetic.Rect({
         x:400,
@@ -218,15 +264,16 @@ var contentStage = new Kinetic.Stage({
         rectangle.setY(rectangleY);
         rectangleY+=direction*1;
 
-        // if(rectangleY<40){
-        //     animation.stop();
-        // }else if(rectangleY>300){
-        //     animation.stop();
-        // }
+        if(rectangleY > 280){
+            contentStage.off('mousedown');
+            gameOver.visible(true);   
+        }else if(rectangleY<50){
+            contentStage.off('mousedown');
+            gameOver.visible(true);   
+        }
 
-   },waveLayer);
+        },waveLayer);
 
-   animation.start();
 
    contentStage.on('mousedown' , function(){direction=-3});
    contentStage.on('mouseleave mouseup' , function(){direction=3});
@@ -240,7 +287,7 @@ var contentStage = new Kinetic.Stage({
         width: 10,
         height: 10,
         x: 700,
-        y: (Math.random())*1000,
+        y: Math.floor(Math.random()*(290-50+1))+50,
         fill: 'black'
     });
 
@@ -253,26 +300,18 @@ var contentStage = new Kinetic.Stage({
       sharkX-=2;
 
       if(doCollide(name,rectangle)){
-        console.log('collision!');
         gameOver.visible(true);
-
+        contentStage.off('mousedown');
       }
 
       },waveLayer);
 
-    sharkAttack.start()
+    sharkAttack.start();
 
     };
 
-    setInterval(function(){
-    newShark()
-    },1000);
-
-
 //////////////////////////////////////////
-    
-    console.log(rectangle.x());
-    console.log(rectangle.y());
+
 
     function doCollide(a , b){
         var ax = a.x();
@@ -280,7 +319,7 @@ var contentStage = new Kinetic.Stage({
         var bx = b.x();
         var by = b.y();
         return(!(
-            (bx > ax + a.width()) || (bx + b.width() < ax) || (by > ay + a.height()) 
+            (bx > ax + a.width()) || (bx + b.width() < ax) || (by > ay + a.height())
             || (by + b.height() < ay)));
     };
 
@@ -319,9 +358,9 @@ var contentStage = new Kinetic.Stage({
    /////////////////////////////
 
     var gameOver = new Kinetic.Text({
-        x: 500,
+        x: 525,
         y: 65,
-        text: 'GAME OVER!',
+        text: 'WIPE OUT!',
         fontSize: 20,
         fontFamily: 'helvetica',
         fill: 'white'
@@ -331,26 +370,17 @@ var contentStage = new Kinetic.Stage({
 
     waveLayer.add(gameOver);
 
-    
-    count=0;
+    ////////////////////////////////////////////////////////////
+
+};
+
+restart();
+
+$('#restart').on('click' , function(){
+    restart();
+});
 
 
-      var score = new Kinetic.Text({
-        X:665,
-        Y:280,
-        text: count,
-        fontSize:18,
-        fill:'white'
-    })
+});
 
 
-      waveLayer.add(score);
-
-
-    setInterval(function(){
-        score.text(count++);
-    },100)
-
-  
-
-})
