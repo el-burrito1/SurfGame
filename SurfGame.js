@@ -1,6 +1,6 @@
 $(document).on('ready' , function(){
 
-var restart = function(){    
+var restart = function(){
 
 var contentStage = new Kinetic.Stage({
                 container:'content',
@@ -22,7 +22,7 @@ var contentStage = new Kinetic.Stage({
             height:175,
             fillLinearGradientStartPoint: {x:0, y:50},
             fillLinearGradientEndPoint: {x:0,y:0},
-            fillLinearGradientColorStops: [0, 'white', 1, 'yellow'],
+            fillLinearGradientColorStops: [0, 'white', 1, '#F8BD00'],
         })
 
         skyLayer.add(sky);
@@ -210,7 +210,7 @@ var contentStage = new Kinetic.Stage({
 
 
 
-   
+
     ///////////////////////////////////////////
 
 
@@ -274,10 +274,10 @@ var contentStage = new Kinetic.Stage({
 
         if(rectangleY > 280){
             contentStage.off('mousedown');
-            gameOver.visible(true);   
+            gameOver.visible(true);
         }else if(rectangleY<50){
             contentStage.off('mousedown');
-            gameOver.visible(true);   
+            gameOver.visible(true);
         }
 
         },waveLayer);
@@ -334,74 +334,86 @@ var contentStage = new Kinetic.Stage({
 
 //////////////////////////////////////////
 
-  
+    function createlittleCloud(name){
+    name = new Kinetic.Group({});
 
-     var circle = new Kinetic.Circle({
+    circle = new Kinetic.Circle({
         x:200,
-        y:28,
+        y:35,
         radius:5,
         fill:'white',
      })
 
-      var circle2 = new Kinetic.Circle({
+    circle2 = new Kinetic.Circle({
         x:220,
-        y:28,
+        y:35,
         radius:5,
         fill:'white',
      })
 
-      var circle3 = new Kinetic.Circle({
+    circle3 = new Kinetic.Circle({
         x:210,
-        y:26,
+        y:33,
         radius:8,
         fill:'white'
       })
 
-    var littleCloud = new Kinetic.Group({});
+    name.add(circle);
+    name.add(circle2);
+    name.add(circle3);
+    skyLayer.add(name);
 
-    littleCloud.add(circle);
-    littleCloud.add(circle2);
-    littleCloud.add(circle3);
+    var cloudx=500;
 
-    skyLayer.add(littleCloud);
+    var moveCloud = new Kinetic.Animation(function(){
+        name.setX(cloudx);
+        cloudx-=.5;
+    },skyLayer);
+
+    moveCloud.start();
+};
+    createlittleCloud();
+    setInterval(function(){
+        createlittleCloud();
+    },5000);
 
 ///////////////////////////////////////////////////
 
-  var cloudy = function(){
+    function createbigCloud(name){
+    name = new Kinetic.Group({});
 
-    var bigCloud = new Kinetic.Group({});
-
-    var cloud1 = new Kinetic.Circle({
+    cloud1 = new Kinetic.Circle({
         x:257,
-        y:28,
+        y:20,
         radius:8,
         fill:'white'
     })
 
-    var cloud2 = new Kinetic.Circle({
+    cloud2 = new Kinetic.Circle({
         x:283,
-        y:28,
+        y:20,
         radius:8,
         fill:'white'
     })
 
-    var cloud3 = new Kinetic.Circle({
+    cloud3 = new Kinetic.Circle({
         x:270,
-        y:26,
+        y:18,
         radius:13,
         fill:'white'
     })
 
-    bigCloud.add(cloud1);
-    bigCloud.add(cloud2);
-    bigCloud.add(cloud3);
 
-    skyLayer.add(bigCloud);
- 
-        cloudx=500;
+    name.add(cloud1);
+    name.add(cloud2);
+    name.add(cloud3);
+    skyLayer.add(name);
+
+
+    var cloudx=500;
 
     var cloudMove = new Kinetic.Animation(function(){
-            bigCloud.setX(cloudx);
+            name.setX(cloudx);
             cloudx-=2;
         },skyLayer);
 
@@ -410,9 +422,11 @@ var contentStage = new Kinetic.Stage({
 
 };
 
-    setInterval(function(){
-        cloudy();
-    },1000)
+setInterval(function(){
+    createbigCloud();
+},2500);
+
+
 
 
 /////////////////////////////////////////
