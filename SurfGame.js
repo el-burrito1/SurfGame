@@ -334,6 +334,89 @@ var contentStage = new Kinetic.Stage({
 
 //////////////////////////////////////////
 
+  
+
+     var circle = new Kinetic.Circle({
+        x:200,
+        y:28,
+        radius:5,
+        fill:'white',
+     })
+
+      var circle2 = new Kinetic.Circle({
+        x:220,
+        y:28,
+        radius:5,
+        fill:'white',
+     })
+
+      var circle3 = new Kinetic.Circle({
+        x:210,
+        y:26,
+        radius:8,
+        fill:'white'
+      })
+
+    var littleCloud = new Kinetic.Group({});
+
+    littleCloud.add(circle);
+    littleCloud.add(circle2);
+    littleCloud.add(circle3);
+
+    skyLayer.add(littleCloud);
+
+///////////////////////////////////////////////////
+
+  var cloudy = function(){
+
+    var bigCloud = new Kinetic.Group({});
+
+    var cloud1 = new Kinetic.Circle({
+        x:257,
+        y:28,
+        radius:8,
+        fill:'white'
+    })
+
+    var cloud2 = new Kinetic.Circle({
+        x:283,
+        y:28,
+        radius:8,
+        fill:'white'
+    })
+
+    var cloud3 = new Kinetic.Circle({
+        x:270,
+        y:26,
+        radius:13,
+        fill:'white'
+    })
+
+    bigCloud.add(cloud1);
+    bigCloud.add(cloud2);
+    bigCloud.add(cloud3);
+
+    skyLayer.add(bigCloud);
+ 
+        cloudx=500;
+
+    var cloudMove = new Kinetic.Animation(function(){
+            bigCloud.setX(cloudx);
+            cloudx-=2;
+        },skyLayer);
+
+
+    cloudMove.start();
+
+};
+
+    setInterval(function(){
+        cloudy();
+    },1000)
+
+
+/////////////////////////////////////////
+
     contentStage.add(skyLayer);
     contentStage.add(waveLayer);
     contentStage.add(whiteWash);
@@ -365,6 +448,10 @@ var contentStage = new Kinetic.Stage({
 
 
    /////////////////////////////
+
+
+
+   ////////////////////////////
 
     var gameOver = new Kinetic.Text({
         x: 525,
